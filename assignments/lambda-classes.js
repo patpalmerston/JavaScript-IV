@@ -25,6 +25,17 @@ class Instructor extends Person {
   grade(student, subject) {
     return `${student} receives a perfect score in ${subject}.`
   }
+  judgment(element){
+     if (Math.random() > .5){
+      
+      element.grade -= Math.floor(Math.random() * 20);
+      
+      return `The professor has noticed your grades need adjusting. Your new grade is ${element.grade} out of a 100.`
+      } 
+      element.grade += Math.floor(Math.random() * 20);
+      return `The professor has noticed your grades need adjusting. Your new grade is ${element.grade} out of a 100.`
+  }
+
 }// Child
 
 class Student extends Instructor {
@@ -33,17 +44,26 @@ class Student extends Instructor {
     this.previousBackground = stuAttrs.previousBackground;
     this.className  = stuAttrs.className ;
     this.favSubjects = stuAttrs.favSubjects;
+    this.grade = stuAttrs.grade;
   }
   listsSubjects(array) {
-    return array.forEach(x => console.log(x));
+    return array.map(x => x);
   }
-  PRAssignment(student, subject) {
-    return `${student} has submitted a PR for ${subject}.`
+  PRAssignment(subject) {
+    return `${this.name} has submitted a PR for ${subject}.`
   }
-  sprintChallenge(student, subject) {
-    return `${student} has begun a sprint challenge on ${subject}.`
+  sprintChallenge(subject) {
+    return `${this.name} has begun a sprint challenge on ${subject}.`
+  }
+  graduate() {
+    if(this.grade > 70) {
+      return console.log(`${this.name} graduated!`)
+    } else { return console.log( `${this.name} still needs some work.`)}
   }
 }// GrandChild
+
+
+
 
 class ProjectManager extends Student {
   constructor(proAttrs) {
@@ -51,11 +71,11 @@ class ProjectManager extends Student {
     this.gradClassName  = proAttrs.gradClassName;
     this.favInstructor  = proAttrs.favInstructor ;
   };
-  standUp(name, channel) {
-    return `${name} announces to ${channel}, @channel standy times!`
+  standUp(channel) {
+    return `${this.name} announces to ${channel}, @channel standy times!`
   };
-  debugsCode(name, student, subject) {
-    return `${name} debugs ${student}'s code on ${subject}.`
+  debugsCode(student, subject) {
+    return `${this.name} debugs ${student}'s code on ${subject}.`
   };
 }
 
@@ -97,6 +117,7 @@ const student1 = new Student({
   gender: 'Female',
   previousBackground: 'Teacher',
   className: 'CS234',
+  grade: 55,
   favSubjects: ['Flex-box', 'Less', 'HTML'],
   catchPhrase: `I love learning.`
 });
@@ -108,6 +129,7 @@ const student2 = new Student({
   gender: 'male',
   previousBackground: 'dog walker',
   className: 'CS154',
+  grade: 85,
   favSubjects: ['React', 'Less', 'CSS'],
   catchPhrase: `Sunshine is my friend.`
 });
@@ -119,6 +141,7 @@ const student3 = new Student({
   gender: 'Non-Specific',
   previousBackground: 'Underworld Ruler',
   className: 'CS999',
+  grade: 100,
   favSubjects: ['Justice', 'Combat', 'Rainbows'],
   catchPhrase: `From the darkness come the brightest of lights.`
 });
@@ -157,10 +180,14 @@ console.log(professor1.demo('Math'));
 console.log(professor1.grade(student1.name, 'English'));
 
 console.log(student1.listsSubjects(student1.favSubjects))
-console.log(student1.PRAssignment(student1.name, 'React'))
-console.log(student1.sprintChallenge(student1.name, 'React'))
+console.log(student1.PRAssignment('React'))
 
-console.log(pm1.standUp(pm1.name, 'Web18'))
-console.log(pm1.debugsCode(pm1.name, student1.name, 'HTML'))
+console.log(student1.sprintChallenge('React'))
 
+console.log(pm1.standUp('Web18'))
 
+console.log(pm1.debugsCode(student1.name, 'HTML'))
+
+console.log(professor1.judgment(student1))
+
+student2.graduate();
